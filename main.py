@@ -9,7 +9,7 @@ import smtplib
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 # print(voices[1].id)
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[1].id)
 
 
 def speak(audio):
@@ -76,7 +76,7 @@ if __name__ == "__main__":
             webbrowser.open("youtube.com")
 
         elif 'open google' in query:
-            webbrowser.open("google.com")
+            webbrowser.open("google.com/search?q='mainepyaarkiya'")
 
         elif 'open stackoverflow' in query:
             webbrowser.open("stackoverflow.com")
