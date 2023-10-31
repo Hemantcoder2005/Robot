@@ -8,7 +8,7 @@ import webbrowser
 import os
 import smtplib
 from pygame import mixer
-
+import pyjokes
 
 mixer.init()
 intro=mixer.Sound('intro.mp3')
@@ -20,6 +20,7 @@ voices = engine.getProperty('voices')
 
 # print(voices[1].id)
 engine.setProperty('voice', voices[1].id)
+
 
 
 def speak(audio):
@@ -67,122 +68,137 @@ def sendEmail(to, content):
     server.login('youremail@gmail.com', 'your-password')
     server.sendmail('youremail@gmail.com', to, content)
     server.close()
-
+def playsound(path):
+    return mixer.Sound(path)
 if __name__ == "__main__":
     speak('Hello Here! What are you doing all?')
     speak('Booting into system')
     speak('Requesting servers to connect.......Access Granted!')
     wishMe()
+    speak(f'Time is {datetime.datetime.now().strftime("%H:%M:%S")}')
     intro.stop()
     speak('Lets start Buddy!')
 
+    run=True
+    query=''
     while True:
+        if not run:
+            query = takeCommand().lower()
+        if 'ok' in query or 'jarvis' in query:
+            run=True
+    
+        while run:
+            listen=playsound('listen.mp3')
+            listen.play()
+            query = takeCommand().lower()
+            # Logic for executing tasks based on query
+            if 'wikipedia' in query:
+                speak('Searching Wikipedia...')
+                query = query.replace("wikipedia", "")
+                results = wikipedia.summary(query, sentences=2)
+                speak("According to Wikipedia")
+                print(results)
+                speak(results)
 
-        query = takeCommand().lower()
+            elif 'open youtube' in query:
+                webbrowser.open("youtube.com")
 
-        # Logic for executing tasks based on query
-        if 'wikipedia' in query:
-            speak('Searching Wikipedia...')
-            query = query.replace("wikipedia", "")
-            results = wikipedia.summary(query, sentences=2)
-            speak("According to Wikipedia")
-            print(results)
-            speak(results)
+            elif 'open google' in query:
+                webbrowser.open("google.com/search?q='mainepyaarkiya'")
 
-        elif 'open youtube' in query:
-            webbrowser.open("youtube.com")
-
-        elif 'open google' in query:
-            webbrowser.open("google.com/search?q='mainepyaarkiya'")
-
-        elif 'open stackoverflow' in query:
-            webbrowser.open("stackoverflow.com")
-        elif 'open instagram' in query:
-            webbrowser.open('instagram.com')
+            elif 'open stackoverflow' in query:
+                webbrowser.open("stackoverflow.com")
+            elif 'open instagram' in query:
+                webbrowser.open('instagram.com')
 
 
-        elif 'play music' in query:
-            music_dir = 'D:\\Non Critical\\songs\\Favorite Songs2'
-            songs = os.listdir(music_dir)
-            print(songs)
-            os.startfile(os.path.join(music_dir, songs[0]))
+            elif 'play music' in query:
+                music_dir = 'D:\\Non Critical\\songs\\Favorite Songs2'
+                songs = os.listdir(music_dir)
+                print(songs)
+                os.startfile(os.path.join(music_dir, songs[0]))
 
-        elif 'the time' in query:
-            strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f"Sir, the time is {strTime}")
+            elif 'the time' in query:
+                strTime = datetime.datetime.now().strftime("%H:%M:%S")
+                speak(f"Sir, the time is {strTime}")
 
-     #   elif 'open code' in query:
-      #      codePath = "C:\\Users\\Haris\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
-       #     os.startfile(codePath)
-        if 'your name' in query:
-            speak('My name is Jarvis')
-        if 'meet you' in query:
-            speak("Nice to meet u too")
-        if 'hello' in query:
-            speak("Hii")
-        if 'how are you' in query:
-            speak("I am fine, What about you")
-        if 'i am also fine' in query:
-            speak("It's great")
-        if 'how are u' in query:
-            speak("I am fine, what about you")
-        if 'nice' in query:
-            speak("Thanks")
-        if 'what can you do' in query:
-            speak("I can do whatever the things you would like me to do. As i am not completed yet, there is some limitations for what i can do ")
-        if 'what you can do' in query:
-            speak("I can do whatever the things you would like me to do. As i am not completed yet, there is some limitations for what i can do ")
-        if 'play song' in query:
-            speak("Playing song")
-        if '10 movies' in query:
-            speak("It may depend on your movie taste. But for mine i will prefer you to watch The Godfather, Shawshank Redemption, Citizen Kane, Pulp Fiction, The Dark Knight, Schindler's List, The Lord of the Rings: The Return of the King, Casablanca, Gone with the Wind, Star Wars: Episode IV - A New Hope")
-        if "whats going" in query or "what's going":
-            speak("Haha! Nothing Special")
-        if 'play with me' in query:
-            speak("I would love to play with u . But due to some restriction I can't. Sorry")
-        if 'want to play' in query:
-            speak("I would love to play with u . But due to some restriction I can't. Sorry")
-        if 'sorry' in query:
-            speak("It's ok")
-        if 'who made you' in query:
-            speak("Tanmay made me with the assisting of Hemant")
-        if 'your friend' in query:
-            speak("My first and best friend is Tanmay. He made me ")
-        if 'your best friend' in query:
-            speak("My first and best friend is Tanmay. He made me ")
-        if 'get lost' in query:
-            speak("Sorry for the inconvenience")
-        if 'are you robot' in query:
-            speak("Ya!! What you think i should be. Hahaha")
-        if 'Why you are robot' in query:
-            speak("Ya!! What you think i should be. Hahaha")
-        if 'really robot' in query:
-            speak("Ya!! What you think i should be. Hahaha")
-        if 'bye' in query:
-            speak("Good Bye! See you soon")
+        #   elif 'open code' in query:
+        #      codePath = "C:\\Users\\Haris\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+        #     os.startfile(codePath)
+            if 'joke' in query:
+                speak('Here is computer science joke')
+                speak(pyjokes.get_joke())
+            if 'your name' in query:
+                speak('My name is Jarvis')
+            if 'meet you' in query:
+                speak("Nice to meet u too")
+            if 'hello' in query or 'hi' in query:
+                speak("Hi,How can I help you today?")
+            if 'how are you' in query:
+                speak("I am fine, What about you")
+            if 'i am also fine' in query:
+                speak("It's great")
+            if 'how are u' in query:
+                speak("I am fine, what about you")
+            if 'nice' in query:
+                speak("Thanks")
+            if 'what can you do' in query:
+                speak("I can do whatever the things you would like me to do. As i am not completed yet, there is some limitations for what i can do ")
+            if 'what you can do' in query:
+                speak("I can do whatever the things you would like me to do. As i am not completed yet, there is some limitations for what i can do ")
+            if 'play song' in query:
+                speak("Playing song")
+            if '10 movies' in query:
+                speak("It may depend on your movie taste. But for mine i will prefer you to watch The Godfather, Shawshank Redemption, Citizen Kane, Pulp Fiction, The Dark Knight, Schindler's List, The Lord of the Rings: The Return of the King, Casablanca, Gone with the Wind, Star Wars: Episode IV - A New Hope")
+            if "whats going" in query or "what's going" in query:
+                speak("Haha! Nothing Special")
+            if 'play with me' in query:
+                speak("I would love to play with u . But due to some restriction I can't. Sorry")
+            if 'want to play' in query:
+                speak("I would love to play with u . But due to some restriction I can't. Sorry")
+            if 'sorry' in query:
+                speak("It's ok")
+            if 'who made you' in query:
+                speak("Tanmay made me with the assisting of Hemant")
+            if 'your friend' in query:
+                speak("My first and best friend is Tanmay. He made me ")
+            if 'your best friend' in query:
+                speak("My first and best friend is Tanmay. He made me ")
+            if 'get lost' in query:
+                speak("Sorry for the inconvenience")
+            if 'are you robot' in query:
+                speak("Ya!! What you think i should be. Hahaha")
+            if 'Why you are robot' in query:
+                speak("Ya!! What you think i should be. Hahaha")
+            if 'really robot' in query:
+                speak("Ya!! What you think i should be. Hahaha")
+            if 'bye' in query:
+                speak("Good Bye! See you soon")
+                quit()
 
-        elif "activate how to do" in query:
-            from pywikihow import search_wikihow
-            speak("How to do mode is activated. Please tell me what you want to know")
-            how = takeCommand()
-            max_results = 1
-            how_to = search_wikihow(how, max_results)
-            assert len(how_to) == 1
-            how_to[0].print()
-            speak(how_to[0].summary)
-        elif "how much power left" in query or "how much power we have" in query or "battery" in query:
-            import psutil
-            battery = psutil.sensors_battery()
-            percentage = battery.percent
-            speak(f"Sir your system have {percentage} percent battery")
+            elif "activate how to do" in query:
+                from pywikihow import search_wikihow
+                speak("How to do mode is activated. Please tell me what you want to know")
+                how = takeCommand()
+                max_results = 1
+                how_to = search_wikihow(how, max_results)
+                assert len(how_to) == 1
+                how_to[0].print()
+                speak(how_to[0].summary)
+            elif "how much power left" in query or "how much power we have" in query or "battery" in query:
+                import psutil
+                battery = psutil.sensors_battery()
+                percentage = battery.percent
+                speak(f"Sir your system have {percentage} percent battery")
 
-        elif 'email to tanmay' in query:
-            try:
-                speak("What should I say?")
-                content = takeCommand()
-                to = "sah.tanmay09@gmail.com"
-                sendEmail(to, content)
-                speak("Email has been sent!")
-            except Exception as e:
-                print(e)
-                speak("Sorry. I am not able to send this email")
+            elif 'email to tanmay' in query:
+                try:
+                    speak("What should I say?")
+                    content = takeCommand()
+                    to = "sah.tanmay09@gmail.com"
+                    sendEmail(to, content)
+                    speak("Email has been sent!")
+                except Exception as e:
+                    print(e)
+                    speak("Sorry. I am not able to send this email")
+            run=False
