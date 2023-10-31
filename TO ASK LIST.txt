@@ -1,0 +1,11 @@
+What is your name?
+How are you?
+What you can do?
+Search something on wikipedia?
+hello?
+What's Going?
+Will u play with me?
+who is your friend?
+
+It can search anything on wikipedia.
+just say  search ____ on wikepedia
